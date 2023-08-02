@@ -67,7 +67,7 @@ function calculaKm(fip, ano, fip2, ano2, oleo, freios, alinhamento, suspencao, p
   const depkm = ((((100-((fip * 100)/ fip2))/(ano2-ano))*fip2)/20000)/100;
   const kmg1 = pf + ao + susp + rkml;
   const km1 = (salario / (ganhos - kmg1))*12;
-  const gastoReal = (imposto / km1) + depkm + kmg1 + (salario / km1);
+  const gastoReal = ((imposto / km1) + depkm + kmg1) * 12;
   const km = salario / (ganhos - gastoReal);
   return km;
 }

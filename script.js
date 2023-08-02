@@ -13,7 +13,9 @@ function checkInputs() {
     const input = formControl.querySelector("input");
     const inputValue = input.value.trim();
 
-    if (inputValue === "") {
+    if (inputValue.includes(",")) {
+      setErrorFor(input, "Por favor, substitua a vírgula por ponto.");
+    } else if (inputValue === "") {
       setErrorFor(input, "Este campo é obrigatório.");
     } else {
       setSuccessFor(input);
@@ -25,10 +27,10 @@ function checkInputs() {
   });
 
   if (formIsValid) {
-    const fipValue = parseFloat(fip.value);
     const anoValue = parseFloat(ano.value);
-    const fip2Value = parseFloat(fip2.value);
     const ano2Value = parseFloat(ano2.value);
+    const fipValue = parseFloat(fip.value);
+    const fip2Value = parseFloat(fip2.value);
     const oleoValue = parseFloat(oleo.value);
     const freiosValue = parseFloat(freios.value);
     const alinhamentoValue = parseFloat(alinhamento.value);
@@ -39,8 +41,6 @@ function checkInputs() {
     const kmlValue = parseFloat(kml.value);
     const ganhosValue = parseFloat(ganhos.value);
     const salarioValue = parseFloat(salario.value);
-
-
     const km = calculaKm(fipValue, anoValue, fip2Value, ano2Value, oleoValue, freiosValue, alinhamentoValue, suspencaoValue, pneuValue, impostoValue, ganhosValue, salarioValue, combustivelValue, kmlValue);
     resultado.innerText = km.toFixed(2);
   }
@@ -60,35 +60,18 @@ function setSuccessFor(input) {
   formControl.classList.add("success");
 }
 function calculaKm(fip, ano, fip2, ano2, oleo, freios, alinhamento, suspencao, pneu, imposto, ganhos, salario, combustivel, kml) {
+  if (ano === ano2) {
+    ano = 0;
+    ano2 = 1;
+  }
   const pf = (pneu + freios) / 40000;
   const ao = (alinhamento + oleo) / 10000;
   const susp = suspencao / 80000;
   const rkml = combustivel / kml;
-  const depkm = ((((100-((fip * 100)/ fip2))/(ano2-ano))*fip2)/20000)/100;
+  const depkm = ((((100 - ((fip * 100) / fip2)) / (ano2 - ano)) / 100) * fip2) / 20000;
   const kmg1 = pf + ao + susp + rkml;
-  const km1 = (salario / (ganhos - kmg1))*12;
-  const gastoReal = ((imposto / km1) + depkm + kmg1) * 12;
+  const km1 = (salario / (ganhos - kmg1)) * 12;
+  const gastoReal = (imposto / km1) + depkm + kmg1;
   const km = salario / (ganhos - gastoReal);
   return km;
-}
-function formatInputs() {
-  const formControls = form.querySelectorAll(".form-control");
-
-  formControls.forEach((formControl) => {
-    const input = formControl.querySelector("input");
-    const inputValue = input.value.trim();
-
-    // Substituir vírgulas por pontos em campos numéricos
-    if (!isNaN(inputValue)) {
-      input.value = inputValue.replace(",", ".");
-    }
-
-    const ano1Value = parseFloat(ano.value);
-    const ano2Value = parseFloat(ano2.value);
-
-    if (ano1Value === ano2Value) {
-      ano.value = "0";
-      ano2.value = "1";
-    }
-  });
 }

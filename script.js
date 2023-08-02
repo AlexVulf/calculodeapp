@@ -87,8 +87,8 @@ function formatInputs() {
     const ano2Value = parseFloat(ano2.value);
 
     if (ano1Value === ano2Value) {
-      ano.value = "1";
-      ano2.value = "0";
+      ano.value = "0";
+      ano2.value = "1";
     }
   });
 }

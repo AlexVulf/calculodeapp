@@ -71,3 +71,24 @@ function calculaKm(fip, ano, fip2, ano2, oleo, freios, alinhamento, suspencao, p
   const km = salario / (ganhos - gastoReal);
   return km;
 }
+function formatInputs() {
+  const formControls = form.querySelectorAll(".form-control");
+
+  formControls.forEach((formControl) => {
+    const input = formControl.querySelector("input");
+    const inputValue = input.value.trim();
+
+    // Substituir vírgulas por pontos em campos numéricos
+    if (!isNaN(inputValue)) {
+      input.value = inputValue.replace(",", ".");
+    }
+
+    const ano1Value = parseFloat(ano.value);
+    const ano2Value = parseFloat(ano2.value);
+
+    if (ano1Value === ano2Value) {
+      ano.value = "1";
+      ano2.value = "0";
+    }
+  });
+}

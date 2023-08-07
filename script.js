@@ -1,5 +1,6 @@
 const form = document.getElementById("form");
 const resultado = document.querySelector("#resultado span");
+const informacaoDiv = document.querySelector(".informacao");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -43,6 +44,7 @@ function checkInputs() {
     const salarioValue = parseFloat(salario.value);
     const km = calculaKm(fipValue, anoValue, fip2Value, ano2Value, oleoValue, freiosValue, alinhamentoValue, suspencaoValue, pneuValue, impostoValue, ganhosValue, salarioValue, combustivelValue, kmlValue);
     resultado.innerText = km.toFixed(2);
+    informacaoDiv.style.display = "block";
   }
 }
 
